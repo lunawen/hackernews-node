@@ -5,6 +5,7 @@ const { PrismaClient } = require("@prisma/client");
 const { getUserId } = require("./utils");
 const Query = require("./resolvers/Query");
 const Mutation = require("./resolvers/Mutation");
+const Link = require("./resolvers/Link");
 
 const prisma = new PrismaClient();
 
@@ -12,11 +13,7 @@ const prisma = new PrismaClient();
 const resolvers = {
   Query,
   Mutation,
-  Link: {
-    id: (parent) => parent.id,
-    description: (parent) => parent.description,
-    url: (parent) => parent.url,
-  },
+  Link,
 };
 
 // 3
