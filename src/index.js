@@ -5,33 +5,29 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-let links = [
-  {
-    id: "link-0",
-    url: "www.howtographql.com",
-    description: "Fullstack tutorial for GraphQL",
-  },
-];
-
 // 2 resolver has same structure as typeDefs, type Query => resolver Query
 const resolvers = {
   Query: {
     info: () => `This is the API of a Hackernews Clone`,
-    feed: () => links,
-    link: (_, args) => {
-      return links.filter((l) => l.id == args.id)[0];
+    feed: async (_, __, context) => {
+      return context.prisma.link.findMany();
+    },
+    link: (_, args, context) => {
+      return context.prisma.link.findFirst({
+        where: {
+          id: parseInt(args.id),
+        },
+      });
     },
   },
   Mutation: {
-    post: (_, args) => {
-      let idCount = links.length;
-
-      const link = {
-        id: `link-${idCount++}`,
-        description: args.description,
-        url: args.url,
-      };
-      links.push(link);
+    post: (_, args, context) => {
+      const link = context.prisma.link.create({
+        data: {
+          description: args.description,
+          url: args.url,
+        },
+      });
       return link;
     },
     updateLink: (_, { id, url, description }) => {
