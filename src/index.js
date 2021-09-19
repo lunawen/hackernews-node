@@ -3,21 +3,13 @@ const fs = require("fs");
 const path = require("path");
 const { PrismaClient } = require("@prisma/client");
 const { getUserId } = require("./utils");
+const Query = require("./resolvers/Query");
 
 const prisma = new PrismaClient();
 
 // 2 resolver has same structure as typeDefs, type Query => resolver Query
 const resolvers = {
-  Query: {
-    info: () => `This is the API of a Hackernews Clone`,
-    link: (_, args, context) => {
-      return context.prisma.link.findFirst({
-        where: {
-          id: parseInt(args.id),
-        },
-      });
-    },
-  },
+  Query,
   Mutation: {
     post: (_, args, context) => {
       const link = context.prisma.link.create({
