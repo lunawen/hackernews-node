@@ -1,4 +1,4 @@
-const { ApolloServer } = require("apollo-server");
+const { ApolloServer, PubSub } = require("apollo-server");
 const fs = require("fs");
 const path = require("path");
 const { PrismaClient } = require("@prisma/client");
@@ -9,6 +9,7 @@ const Link = require("./resolvers/Link");
 const User = require("./resolvers/User");
 
 const prisma = new PrismaClient();
+const pubSub = new PubSub();
 
 // 2 resolver has same structure as typeDefs, type Query => resolver Query
 const resolvers = {
@@ -29,6 +30,7 @@ const server = new ApolloServer({
     return {
       ...req,
       prisma,
+      pubSub,
       userId: req && req.headers.authorization ? getUserId(req) : null,
     };
   },
