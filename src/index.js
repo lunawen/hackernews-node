@@ -1,4 +1,4 @@
-const { ApolloServer, PubSub } = require("apollo-server");
+const { ApolloServer } = require("apollo-server");
 const fs = require("fs");
 const path = require("path");
 const { PrismaClient } = require("@prisma/client");
@@ -8,6 +8,7 @@ const Mutation = require("./resolvers/Mutation");
 const Link = require("./resolvers/Link");
 const User = require("./resolvers/User");
 const Subscription = require("./resolvers/Subscription");
+const { PubSub } = require("graphql-subscriptions");
 
 const prisma = new PrismaClient();
 const pubSub = new PubSub();
