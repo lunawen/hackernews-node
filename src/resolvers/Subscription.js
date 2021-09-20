@@ -1,7 +1,7 @@
 // This function is used to resolve subscriptions and push the event data.
 function newLinkSubscribe(parent, args, context, info) {
   // subscription return an asyncIterator to push event data
-  return context.pubsub.asyncIterator("NEW_LINK");
+  return context.pubSub.asyncIterator("NEW_LINK");
 }
 
 const newLink = {
